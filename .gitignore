@@ -1,0 +1,15 @@
+/.env.local
+/.env.local.php
+/.env.*.local
+/composer.lock
+/vendor/
+/var/
+/public/bundles/
+/.phpunit.result.cache
+/.phpunit.cache/
+/.deptrac.cache
+/var/data.db
+/var/test.db
+.DS_Store
+/.idea/
+/.vscode/

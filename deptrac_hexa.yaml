@@ -1,0 +1,70 @@
+parameters:
+    paths:
+        - ./src/BookStore
+        - ./src/Shared
+        - ./src/Subscription
+
+    layers:
+        - name: Domain
+          collectors:
+              - type: directory
+                regex: .+/Domain/.*
+
+        - name: Application
+          collectors:
+              - type: directory
+                regex: .+/Application/.*
+
+        - name: Infrastructure
+          collectors:
+              - type: directory
+                regex: .+/Infrastructure/.*
+
+        - name: SubscriptionRAD
+          collectors:
+              - type: directory
+                regex: .+/Subscription/.*
+
+        - name: Vendors
+          collectors:
+              - { type: className, regex: ^Symfony\\(?!(Component\\Uid\\)) }
+              - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
+
+        # The "object-pure" whitelist (slide 31 speaker note):
+        # attribute classes are metadata, not runtime IO — allowed into Domain/Application.
+        - name: Attributes
+          collectors:
+              - { type: className, regex: ^Doctrine\\ORM\\Mapping }
+              - { type: className, regex: ^Symfony\\Component\\Validator\\Attribute }
+              - { type: className, regex: ^Symfony\\Component\\Serializer\\Attribute }
+              - { type: className, regex: ^Symfony\\Component\\ObjectMapper\\Attribute }
+              - { type: className, regex: ^Symfony\\Component\\Messenger\\Attribute }
+              - { type: className, regex: ^Symfony\\Component\\HttpKernel\\Attribute }
+              - { type: className, regex: ^Symfony\\Component\\Routing\\Attribute }
+
+        - name: Helpers
+          collectors:
+              - { type: className, regex: ^Symfony\\Component\\Uid\\ }
+
+    ruleset:
+        Domain:
+            - Helpers
+            - Attributes
+
+        Application:
+            - Domain
+            - Helpers
+            - Attributes
+
+        Infrastructure:
+            - Domain
+            - Application
+            - Vendors
+            - Helpers
+            - Attributes
+
+        # RAD has no internal layering: anything goes within the Subscription context.
+        SubscriptionRAD:
+            - Vendors
+            - Helpers
+            - Attributes

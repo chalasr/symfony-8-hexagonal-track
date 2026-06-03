@@ -1,0 +1,22 @@
+framework:
+    messenger:
+        default_bus: command.bus
+        buses:
+            command.bus:
+                middleware:
+                    - validation
+                    - doctrine_transaction
+            query.bus:
+                default_middleware:
+                    allow_no_handlers: false
+                    allow_no_senders: true
+                middleware:
+                    - validation
+
+        transports:
+            sync: 'sync://'
+
+        routing:
+            'App\BookStore\Application\Command\DiscountBookCommand': sync
+            'App\BookStore\Application\Query\FindCheapestBooksQuery': sync
+            'App\BookStore\Application\Query\FindBookQuery': sync

@@ -1,0 +1,79 @@
+{
+    "name": "chalasr/symfony-8-hexagonal-track",
+    "description": "Companion repo for SymfonyLive Montreal 2026 talk: Symfony 8 - The Hexagonal Track",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Robin Chalas",
+            "email": "robin.chalas@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/dbal": "^4",
+        "doctrine/doctrine-bundle": "^3",
+        "doctrine/orm": "^3",
+        "symfony/console": "^8.1",
+        "symfony/dotenv": "^8.1",
+        "symfony/framework-bundle": "^8.1",
+        "symfony/http-kernel": "^8.1",
+        "symfony/messenger": "^8.1",
+        "symfony/object-mapper": "^8.1",
+        "symfony/runtime": "^8.1",
+        "symfony/serializer": "^8.1",
+        "symfony/uid": "^8.1",
+        "symfony/validator": "^8.1",
+        "symfony/yaml": "^8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11",
+        "qossmic/deptrac": "^2",
+        "symfony/browser-kit": "^8.1",
+        "symfony/css-selector": "^8.1",
+        "symfony/maker-bundle": "^1",
+        "symfony/phpunit-bridge": "^8.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*",
+        "symfony/polyfill-php84": "*"
+    },
+    "extra": {
+        "runtime": {
+            "use_runtime": "Symfony\\Runtime\\SymfonyRuntime"
+        }
+    }
+}

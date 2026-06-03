@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+if (!file_exists(__DIR__.'/../vendor/symfony/phpunit-bridge/bin/simple-phpunit')) {
+    if (!file_exists(__DIR__.'/../vendor/phpunit/phpunit/phpunit')) {
+        echo "Unable to find the `simple-phpunit` or `phpunit` script in `vendor/`.\nPlease run `composer install`.".PHP_EOL;
+        exit(1);
+    }
+
+    require __DIR__.'/../vendor/phpunit/phpunit/phpunit';
+} else {
+    if (!getenv('SYMFONY_PHPUNIT_VERSION')) {
+        putenv('SYMFONY_PHPUNIT_VERSION=11');
+    }
+
+    require __DIR__.'/../vendor/symfony/phpunit-bridge/bin/simple-phpunit';
+}

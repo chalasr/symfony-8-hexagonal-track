@@ -1,0 +1,25 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $commandBus: '@command.bus'
+            $queryBus: '@query.bus'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+
+    # Port -> Adapter bindings (bus interfaces stay in Application)
+    App\Shared\Application\Command\CommandBusInterface:
+        alias: App\Shared\Infrastructure\Symfony\Messenger\MessengerCommandBus
+
+    App\Shared\Application\Query\QueryBusInterface:
+        alias: App\Shared\Infrastructure\Symfony\Messenger\MessengerQueryBus
+
+    # Default repository binding for prod/dev (Doctrine). Overridden in services_test.yaml.
+    App\BookStore\Domain\Repository\BookRepositoryInterface:
+        alias: App\BookStore\Infrastructure\Doctrine\DoctrineBookRepository
