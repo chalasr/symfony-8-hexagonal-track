@@ -136,29 +136,11 @@ into Domain/Application by design. The leak is intentional, bounded, machine-che
 - **Deptrac 4.6** for architecture rules — full PHP 8.4 parser support
 - **PHPUnit 11** with `bin/phpunit` shim
 
-## Verify everything
+## Going further — API Platform × DDD
 
-Bare metal:
-
-```bash
-composer install
-bin/console doctrine:schema:create --env=test
-bin/console doctrine:schema:create --env=dev
-bin/phpunit                                                # 37 tests pass
-vendor/bin/deptrac analyse --config-file=deptrac_hexa.yaml # 0 violations
-```
-
-Or inside the FrankenPHP container:
-
-```bash
-docker compose up -d --build
-docker compose exec app bin/phpunit
-docker compose exec app vendor/bin/deptrac analyse --config-file=deptrac_hexa.yaml
-docker compose down -v
-```
-
-GitHub Actions runs the same on every push / PR — see
-[`.github/workflows/qa.yaml`](.github/workflows/qa.yaml). Two jobs in parallel:
-PHPUnit + Deptrac on bare-metal PHP 8.4, and a Docker job that builds the
-FrankenPHP image, boots it, and curls `/books/cheapest` to prove the container
-serves requests.
+For a full hypermedia RESTful API on top of the same hexagonal substrate, see
+[**mtarld/apipddd**](https://github.com/mtarld/apipddd) — the companion repo
+for the previous talk Robin Chalas and Mathias Arlaud gave on the topic
+([YouTube](https://www.youtube.com/watch?v=SSQal3Msi9g)). API Platform is the
+superior choice for full-featured hypermedia REST: content negotiation, JSON-LD
+/ Hydra / HAL, OpenAPI, filters, pagination, validation — out of the box.
