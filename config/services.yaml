@@ -5,8 +5,8 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            $commandBus: '@command.bus'
-            $queryBus: '@query.bus'
+            Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
+            Symfony\Component\Messenger\MessageBusInterface $queryBus: '@query.bus'
 
     App\:
         resource: '../src/'

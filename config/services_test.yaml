@@ -1,7 +1,10 @@
 services:
-    # In the test env, every test gets the InMemoryBookRepository by default.
-    # The Doctrine integration test overrides this for itself via
-    # self::getContainer()->set(BookRepositoryInterface::class, $doctrineImpl).
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Two-tier test rule: in-memory is the default port. DoctrineBookRepositoryTest
+    # rebinds it to the real adapter for itself only via $container->set(...).
     App\BookStore\Domain\Repository\BookRepositoryInterface:
         alias: App\BookStore\Infrastructure\InMemory\InMemoryBookRepository
         public: true

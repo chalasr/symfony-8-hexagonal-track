@@ -14,10 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\Serialize;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * Slide 23: GET adapter with `#[MapQueryString]` + `#[Serialize]`.
- * Uses `ObjectMapperInterface` (slide 25) to project domain `Book`s to `BookResource` DTOs.
- */
+/** Slide 23 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=23 */
 #[AsController]
 final class CheapestBooksController
 {

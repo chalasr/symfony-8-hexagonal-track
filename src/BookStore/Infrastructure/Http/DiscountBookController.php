@@ -13,13 +13,9 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Attribute\Serialize;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Routing\Requirement\Requirement;
 
-/**
- * Slide 20: the HTTP adapter. Invokable, no `extends AbstractController`.
- * `#[MapRequestPayload]` does deserialize + validate in one (Sf 6.3).
- * `#[Serialize]` (Sf 8.1) replaces a manual JsonResponse wrap.
- */
+/** Slide 20 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=20 */
 #[AsController]
 final class DiscountBookController
 {
@@ -28,14 +24,14 @@ final class DiscountBookController
     ) {
     }
 
-    #[Route('/books/{id}/discount', methods: ['POST'])]
+    #[Route('/books/{id}/discount', methods: ['POST'], requirements: ['id' => Requirement::UUID])]
     #[Serialize(code: 204)]
     public function __invoke(
         string $id,
         #[MapRequestPayload] DiscountBookPayload $payload,
     ): void {
         $this->commandBus->dispatch(new DiscountBookCommand(
-            new BookId(Uuid::fromString($id)),
+            new BookId($id),
             new Discount($payload->percentage),
         ));
     }

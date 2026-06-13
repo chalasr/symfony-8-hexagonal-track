@@ -11,8 +11,6 @@ framework:
     validation:
         enabled: true
 
-    test: '%env(default::bool:KERNEL_CLASS)%'
-
 when@test:
     framework:
         test: true

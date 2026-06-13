@@ -11,10 +11,6 @@ use App\BookStore\Domain\ValueObject\Price;
 use App\BookStore\Infrastructure\InMemory\InMemoryBookRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * WebTestCase + in-memory repo (via the test alias in services_test.yaml).
- * No database needed.
- */
 final class DiscountBookControllerTest extends WebTestCase
 {
     public function testItDiscountsBookAndReturns204(): void

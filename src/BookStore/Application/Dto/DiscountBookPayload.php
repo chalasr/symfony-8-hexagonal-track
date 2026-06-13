@@ -6,10 +6,7 @@ namespace App\BookStore\Application\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Target of `#[MapRequestPayload]` on slide 20.
- * Validation lives here in the Application layer, not on the domain Book.
- */
+/** Slide 20 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=20 */
 final class DiscountBookPayload
 {
     public function __construct(

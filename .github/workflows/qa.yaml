@@ -1,0 +1,89 @@
+name: QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: PHPUnit + Deptrac
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ctype, iconv, intl, sqlite3, pdo_sqlite, zip, opcache
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer files
+        run: composer validate --no-check-publish
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Composer audit
+        run: composer audit
+        continue-on-error: true
+
+      - name: Prepare var/
+        run: mkdir -p var
+
+      - name: PHPUnit
+        run: bin/phpunit
+
+      - name: Deptrac
+        run: vendor/bin/deptrac analyse --config-file=deptrac_hexa.yaml --no-progress
+
+  docker:
+    name: FrankenPHP image · build & boot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: demo-app:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Boot and smoke-test
+        run: |
+          docker run -d --name app -p 8000:80 demo-app:ci
+          for i in {1..30}; do
+            if curl -sf http://127.0.0.1:8000/books/cheapest >/dev/null; then
+              echo "ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+          status=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/books/cheapest)
+          echo "GET /books/cheapest → $status"
+          test "$status" = "200"
+          docker logs app | tail -10
+          docker rm -f app

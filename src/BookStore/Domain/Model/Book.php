@@ -11,9 +11,11 @@ use App\BookStore\Domain\ValueObject\Price;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * The pristine aggregate (slide 11): no Validator, no Serializer, no Groups.
- * PHP 8.4 asymmetric visibility (slide 13): read everywhere, write inside.
- * Doctrine mapping attributes are kept on purpose (slide 29: object-pure violation).
+ * Slides 11, 13 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=11
+ *
+ * Doctrine mapping attributes here are an intentional dependency-rule violation
+ * (slide 29, https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=29):
+ * metadata-only, no IO at construct time. Don't "fix" them away.
  */
 #[ORM\Entity]
 class Book
@@ -31,9 +33,7 @@ class Book
         $this->id = new BookId();
     }
 
-    /**
-     * PHP 8.4 property hook (slide 14): computed property, no anemic getter.
-     */
+    /** Slide 14 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=14 */
     public string $displayName {
         get => $this->name->value;
     }

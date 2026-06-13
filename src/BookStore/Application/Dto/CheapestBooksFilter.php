@@ -6,9 +6,7 @@ namespace App\BookStore\Application\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Target of `#[MapQueryString]` on slide 23.
- */
+/** Slide 23 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=23 */
 final class CheapestBooksFilter
 {
     public function __construct(

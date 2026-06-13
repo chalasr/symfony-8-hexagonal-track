@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace App\BookStore\Infrastructure\Validation;
 
 use App\BookStore\Domain\Model\Book;
+use App\BookStore\Domain\ValueObject\BookName;
 use Symfony\Component\Validator\Attribute\ExtendsValidationFor;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Slide 24: validation metadata for `Book` lives OUTSIDE the domain.
- * `#[ExtendsValidationFor]` (Sf 7.4) attaches these constraints to `Book::class`
- * without polluting the domain class with `#[Assert\*]` attributes.
- */
+/** Slide 24 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=24 */
 #[ExtendsValidationFor(Book::class)]
 final class BookValidation
 {
-    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\NotBlank]                                  // mirrors InvalidBookNameException::blank
+    #[Assert\Length(min: 1, max: BookName::MAX_LENGTH)] // mirrors InvalidBookNameException::tooLong
     public string $name;
 
-    #[Assert\PositiveOrZero]
+    #[Assert\PositiveOrZero]                            // mirrors InvalidPriceException::negative
     public int $price;
 }

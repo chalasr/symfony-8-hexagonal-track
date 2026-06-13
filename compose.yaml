@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - app_var:/app/var
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: "0"
+
+volumes:
+  app_var:

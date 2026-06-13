@@ -6,10 +6,10 @@ namespace App\BookStore\Domain\Exception;
 
 use App\BookStore\Domain\ValueObject\BookId;
 
-final class MissingBookException extends \RuntimeException
+final class MissingBookException extends \DomainException
 {
     public function __construct(BookId $id, int $code = 0, ?\Throwable $previous = null)
     {
-        parent::__construct(\sprintf('Cannot find book with id %s', (string) $id), $code, $previous);
+        parent::__construct(\sprintf('Cannot find book with id %s.', (string) $id), $code, $previous);
     }
 }

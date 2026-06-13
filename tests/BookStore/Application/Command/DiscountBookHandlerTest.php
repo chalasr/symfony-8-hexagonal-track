@@ -14,9 +14,6 @@ use App\BookStore\Domain\ValueObject\Price;
 use App\BookStore\Infrastructure\InMemory\InMemoryBookRepository;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Unit test: in-memory repo. No kernel, no database. Runs in milliseconds.
- */
 final class DiscountBookHandlerTest extends TestCase
 {
     public function testItAppliesDiscount(): void

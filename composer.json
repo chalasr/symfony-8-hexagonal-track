@@ -3,8 +3,7 @@
     "description": "Companion repo for SymfonyLive Montreal 2026 talk: Symfony 8 - The Hexagonal Track",
     "type": "project",
     "license": "MIT",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Robin Chalas",
@@ -24,6 +23,8 @@
         "symfony/http-kernel": "^8.1",
         "symfony/messenger": "^8.1",
         "symfony/object-mapper": "^8.1",
+        "symfony/property-access": "^8.1",
+        "symfony/property-info": "^8.1",
         "symfony/runtime": "^8.1",
         "symfony/serializer": "^8.1",
         "symfony/uid": "^8.1",
@@ -31,8 +32,8 @@
         "symfony/yaml": "^8.1"
     },
     "require-dev": {
+        "deptrac/deptrac": "^4.6",
         "phpunit/phpunit": "^11",
-        "qossmic/deptrac": "^2",
         "symfony/browser-kit": "^8.1",
         "symfony/css-selector": "^8.1",
         "symfony/maker-bundle": "^1",

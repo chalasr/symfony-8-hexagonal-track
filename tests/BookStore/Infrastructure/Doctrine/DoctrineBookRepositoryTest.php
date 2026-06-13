@@ -14,9 +14,9 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Integration test. Overrides the in-memory alias FOR THIS TEST ONLY,
- * pointing `BookRepositoryInterface` at the real Doctrine adapter.
- * Runs against SQLite from .env.test.
+ * The one BookStore test that talks to a real DB. Rebinds the port to the Doctrine
+ * adapter for itself only — every other test keeps the in-memory adapter from
+ * services_test.yaml.
  */
 final class DoctrineBookRepositoryTest extends KernelTestCase
 {

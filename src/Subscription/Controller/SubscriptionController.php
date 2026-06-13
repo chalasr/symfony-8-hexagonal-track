@@ -11,9 +11,10 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Attribute\Serialize;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 
+/** Slide 28 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=28 */
 #[AsController]
 final class SubscriptionController
 {
@@ -24,17 +25,15 @@ final class SubscriptionController
 
     #[Route('/subscriptions', methods: ['POST'])]
     #[Serialize(code: 201)]
-    public function create(#[MapRequestPayload] SubscriptionInput $input): Subscription
+    public function create(#[MapRequestPayload] Subscription $subscription): Subscription
     {
-        $subscription = new Subscription(email: $input->email);
-
         $this->em->persist($subscription);
         $this->em->flush();
 
         return $subscription;
     }
 
-    #[Route('/subscriptions/{id}', methods: ['GET'])]
+    #[Route('/subscriptions/{id}', methods: ['GET'], requirements: ['id' => Requirement::UUID])]
     #[Serialize]
     public function get(string $id): Subscription
     {
@@ -45,15 +44,5 @@ final class SubscriptionController
         }
 
         return $subscription;
-    }
-}
-
-final class SubscriptionInput
-{
-    public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\Email]
-        public readonly string $email,
-    ) {
     }
 }

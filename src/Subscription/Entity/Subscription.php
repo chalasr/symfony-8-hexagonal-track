@@ -9,8 +9,10 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Slide 28: RAD coexistence. Plain entity, ORM + Assert + (controller-level) Route — all on one class.
- * This is the right tier for a settled-shape, three-field, single-CRUD-form domain.
+ * Slide 28 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=28
+ *
+ * RAD. ORM + Assert on the entity; never `#[Route]` here — that belongs on the
+ * controller.
  */
 #[ORM\Entity]
 class Subscription

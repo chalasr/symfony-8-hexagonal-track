@@ -1,0 +1,11 @@
+.git/
+.idea/
+.vscode/
+vendor/
+var/
+node_modules/
+*.cache
+.deptrac.cache
+.phpunit.result.cache
+.phpunit.cache/
+.DS_Store

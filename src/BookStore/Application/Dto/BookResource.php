@@ -8,12 +8,7 @@ use App\BookStore\Domain\Model\Book;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-/**
- * Slide 25: ObjectMapper `#[Map(source: …)]` replaces a hand-written
- * `BookResource::fromModel()` translator in the Application layer.
- *
- * `$mapper->map($book, BookResource::class)` does the projection.
- */
+/** Slide 25 — https://speakerdeck.com/chalasr/symfony-8-the-hexagonal-track?slide=25 */
 #[Map(source: Book::class)]
 final class BookResource
 {
